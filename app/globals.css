@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f8f7;
+  --foreground: #111111;
+  --tq-teal: #42d4bc;
+  --tq-teal-dark: #24b49f;
+  --tq-glass: rgba(255, 255, 255, 0.58);
+  --tq-border: rgba(255, 255, 255, 0.65);
 }
 
 @theme inline {
@@ -12,15 +16,169 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(66, 212, 188, 0.08), transparent 28%),
+    radial-gradient(circle at 90% 20%, rgba(66, 212, 188, 0.06), transparent 25%),
+    var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(66, 212, 188, 0.3);
+  color: #111111;
+}
+
+/* Premium glass */
+.tq-glass {
+  background: var(--tq-glass);
+  border: 1px solid var(--tq-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Soft 3D depth */
+.tq-depth {
+  box-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.1),
+    0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Floating animation */
+@keyframes tq-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+.tq-float {
+  animation: tq-float 6s ease-in-out infinite;
+}
+
+/* Slow floating animation */
+@keyframes tq-float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -18px, 0) rotate(2deg);
+  }
+}
+
+.tq-float-slow {
+  animation: tq-float-slow 9s ease-in-out infinite;
+}
+
+/* Glow pulse */
+@keyframes tq-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+.tq-glow {
+  animation: tq-glow 5s ease-in-out infinite;
+}
+
+/* Shimmer */
+@keyframes tq-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.tq-shimmer {
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.42) 40%,
+    rgba(255, 255, 255, 0.08) 60%
+  );
+  animation: tq-shimmer 4s linear infinite;
+}
+
+/* Premium hover depth */
+.tq-hover {
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 500ms ease,
+    border-color 500ms ease;
+}
+
+.tq-hover:hover {
+  transform: translateY(-7px);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.12),
+    0 10px 25px rgba(66, 212, 188, 0.1);
+}
+
+/* Hide scrollbar where needed */
+.tq-scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tq-scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 const navItems = [
-  { label: "Find tutors", href: "#find-tutors" },
-  { label: "Classes", href: "#classes" },
-  { label: "Subjects", href: "#subjects" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Become a tutor", href: "#become-a-tutor" },
+  { label: "Find tutors", href: "/find-tutors" },
+  { label: "Classes", href: "/classes" },
+  { label: "Subjects", href: "/subjects" },
+  { label: "How it works", href: "/how-it-works" },
+  { label: "Become a tutor", href: "/teacher/signup" },
 ];
 
 const classes = [
@@ -126,7 +126,7 @@ export default function Home() {
         <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className="group flex items-center gap-2"
             aria-label="TutorsQue home"
           >
@@ -171,7 +171,7 @@ export default function Home() {
             </a>
 
             <a
-              href="#find-tutors"
+              href="/find-tutors"
               className="rounded-full bg-[#42d4bc] px-5 py-2.5 text-[14px] font-semibold text-black transition hover:bg-[#34c7af]"
             >
               Get started
@@ -214,7 +214,7 @@ export default function Home() {
               </a>
 
               <a
-                href="#find-tutors"
+                href="/find-tutors"
                 className="flex items-center justify-center rounded-full bg-[#42d4bc] px-5 py-3 text-sm font-semibold"
               >
                 Get started
@@ -246,7 +246,7 @@ export default function Home() {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#find-tutors"
+                href="/find-tutors"
                 className="inline-flex h-14 items-center justify-center gap-3 rounded-[15px] bg-[#111111] px-7 text-[15px] font-semibold text-white transition hover:-translate-y-0.5"
               >
                 Find your tutor
@@ -254,7 +254,7 @@ export default function Home() {
               </a>
 
               <a
-                href="#become-a-tutor"
+                href="/teacher/signup"
                 className="inline-flex h-14 items-center justify-center rounded-[15px] border border-black/15 bg-white px-7 text-[15px] font-semibold transition hover:border-black/30 hover:bg-black/[0.02]"
               >
                 Become a tutor
@@ -306,9 +306,11 @@ export default function Home() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.13em] text-black/40">
                 Today
               </div>
+
               <div className="mt-1 text-[17px] font-semibold">
                 10th Maths
               </div>
+
               <div className="mt-1 text-xs text-black/50">
                 6:00 PM · Live class
               </div>
@@ -400,7 +402,7 @@ export default function Home() {
             </div>
 
             <a
-              href="#classes"
+              href="/classes"
               className="inline-flex items-center gap-2 text-sm font-semibold"
             >
               Explore all classes
@@ -414,13 +416,12 @@ export default function Home() {
           >
             {classes.map((className, index) => (
               <a
-                href="#subjects"
+                href={`/find-tutors?class=${encodeURIComponent(className)}`}
                 key={className}
                 className="group rounded-[18px] border border-black/10 bg-white p-5 transition duration-300 hover:-translate-y-1 hover:border-black/20 hover:shadow-[0_16px_35px_rgba(0,0,0,0.07)]"
               >
                 <div className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
-                  0{Math.min(index + 1, 9)}
-                  {index >= 9 ? "" : ""}
+                  {String(index + 1).padStart(2, "0")}
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
@@ -460,13 +461,14 @@ export default function Home() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               {subjects.map((subject, index) => (
-                <div
+                <a
                   key={subject}
+                  href={`/find-tutors?subject=${encodeURIComponent(subject)}`}
                   className="flex min-h-[150px] flex-col justify-between rounded-[22px] border border-black/10 bg-[#fafaf8] p-6 transition hover:border-black/20 hover:bg-white hover:shadow-[0_16px_35px_rgba(0,0,0,0.05)]"
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-xs font-semibold uppercase tracking-[0.12em] text-black/35">
-                      0{index + 1}
+                      {String(index + 1).padStart(2, "0")}
                     </span>
 
                     <span className="h-3 w-3 rounded-full bg-[#42d4bc]" />
@@ -475,7 +477,7 @@ export default function Home() {
                   <div className="text-[23px] font-semibold tracking-[-0.04em]">
                     {subject}
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -573,7 +575,7 @@ export default function Home() {
 
                 <div className="mt-8">
                   <a
-                    href="/become-a-tutor"
+                    href="/teacher/signup"
                     className="inline-flex h-14 items-center justify-center gap-3 rounded-[15px] bg-black px-7 text-[15px] font-semibold text-white transition hover:-translate-y-0.5"
                   >
                     Become a tutor
@@ -627,7 +629,7 @@ export default function Home() {
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <a
-              href="#find-tutors"
+              href="/find-tutors"
               className="inline-flex h-14 items-center justify-center gap-3 rounded-[15px] bg-black px-7 text-[15px] font-semibold text-white"
             >
               Find your tutor
@@ -671,14 +673,26 @@ export default function Home() {
               </div>
 
               <div className="mt-4 flex flex-col gap-3 text-sm text-white/65">
-                <a href="#classes" className="transition hover:text-white">
+                <a href="/classes" className="transition hover:text-white">
                   Classes
                 </a>
-                <a href="#subjects" className="transition hover:text-white">
+
+                <a href="/subjects" className="transition hover:text-white">
                   Subjects
                 </a>
-                <a href="#find-tutors" className="transition hover:text-white">
+
+                <a
+                  href="/find-tutors"
+                  className="transition hover:text-white"
+                >
                   Find tutors
+                </a>
+
+                <a
+                  href="/how-it-works"
+                  className="transition hover:text-white"
+                >
+                  How it works
                 </a>
               </div>
             </div>
@@ -690,13 +704,14 @@ export default function Home() {
 
               <div className="mt-4 flex flex-col gap-3 text-sm text-white/65">
                 <a
-                  href="/become-a-tutor"
+                  href="/teacher/signup"
                   className="transition hover:text-white"
                 >
                   Become a tutor
                 </a>
+
                 <a
-                  href="/teacher-login"
+                  href="/login"
                   className="transition hover:text-white"
                 >
                   Teacher login
@@ -713,9 +728,11 @@ export default function Home() {
                 <a href="/about" className="transition hover:text-white">
                   About
                 </a>
+
                 <a href="/contact" className="transition hover:text-white">
                   Contact
                 </a>
+
                 <a href="/privacy" className="transition hover:text-white">
                   Privacy
                 </a>
