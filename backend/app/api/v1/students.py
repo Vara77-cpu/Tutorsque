@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.dependencies import CurrentUser, RequireStudent
-from app.models.student import Student
+from app.models.user import User
 from app.schemas.student import (
     StudentProfileCreate,
     StudentProfileResponse,
@@ -20,6 +20,10 @@ router = APIRouter(
 )
 
 
+# ============================================================
+# GET CURRENT STUDENT PROFILE
+# ============================================================
+
 @router.get(
     "/me",
     response_model=StudentProfileResponse,
@@ -27,9 +31,16 @@ router = APIRouter(
 )
 async def get_my_profile(
     current_user: CurrentUser,
-    db: Annotated[AsyncSession, Depends(get_db)],
-    _: Annotated[Student, RequireStudent],
+    db: Annotated[
+        AsyncSession,
+        Depends(get_db),
+    ],
+    _: Annotated[
+        User,
+        RequireStudent,
+    ],
 ) -> StudentProfileResponse:
+
     profile = await student_service.get_profile(
         db,
         current_user.id,
@@ -46,6 +57,10 @@ async def get_my_profile(
     )
 
 
+# ============================================================
+# CREATE CURRENT STUDENT PROFILE
+# ============================================================
+
 @router.post(
     "/me",
     response_model=StudentProfileResponse,
@@ -55,11 +70,18 @@ async def get_my_profile(
 async def create_my_profile(
     payload: StudentProfileCreate,
     current_user: CurrentUser,
-    db: Annotated[AsyncSession, Depends(get_db)],
-    _: Annotated[Student, RequireStudent],
+    db: Annotated[
+        AsyncSession,
+        Depends(get_db),
+    ],
+    _: Annotated[
+        User,
+        RequireStudent,
+    ],
 ) -> StudentProfileResponse:
+
     try:
-        profile = await student_service.create_profile(
+        await student_service.create_profile(
             db,
             current_user.id,
             payload,
@@ -87,6 +109,10 @@ async def create_my_profile(
         ) from exc
 
 
+# ============================================================
+# UPDATE CURRENT STUDENT PROFILE
+# ============================================================
+
 @router.patch(
     "/me",
     response_model=StudentProfileResponse,
@@ -95,9 +121,16 @@ async def create_my_profile(
 async def update_my_profile(
     payload: StudentProfileUpdate,
     current_user: CurrentUser,
-    db: Annotated[AsyncSession, Depends(get_db)],
-    _: Annotated[Student, RequireStudent],
+    db: Annotated[
+        AsyncSession,
+        Depends(get_db),
+    ],
+    _: Annotated[
+        User,
+        RequireStudent,
+    ],
 ) -> StudentProfileResponse:
+
     try:
         await student_service.update_profile(
             db,
@@ -122,6 +155,6 @@ async def update_my_profile(
 
     except ValueError as exc:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
         ) from exc
